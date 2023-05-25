@@ -117,12 +117,8 @@ impl WindowHook {
         if let Some(tag) = self.spawn_on_tag {
             window.tag = Some(tag);
         }
-        if self.spawn_on_workspace.is_some() {
-            if let Some(workspace) = state
-                .workspaces
-                .iter()
-                .find(|ws| &ws.id == self.spawn_on_workspace.as_ref().unwrap())
-            {
+        if let Some(workspace_id) = self.spawn_on_workspace {
+            if let Some(workspace) = state.workspaces.iter().find(|ws| ws.id == workspace_id) {
                 if let Some(tag) = workspace.tag {
                     // In order to apply the correct margin multiplier we want to copy this value
                     // from any window already present on the target tag
@@ -158,7 +154,7 @@ impl WindowHook {
             state.actions.push_back(act);
             state.handle_window_focus(&window.handle);
         }
-        if let Some(w_type) = self.spawn_as_type.clone() {
+        if let Some(w_type) = self.spawn_as_type {
             window.r#type = w_type;
         }
     }

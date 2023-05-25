@@ -116,8 +116,8 @@ impl DisplayServer for XlibDisplayServer {
             DisplayAction::FocusWindowUnderCursor => from_focus_window_under_cursor(xw),
             DisplayAction::NormalMode => from_normal_mode(xw),
         };
-        if event.is_some() {
-            tracing::trace!("DisplayEvent: {:?}", event);
+        if let Some(display_event) = &event {
+            tracing::trace!("DisplayEvent: {:?}", display_event);
         }
         event
     }

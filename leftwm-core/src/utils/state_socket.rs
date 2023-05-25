@@ -1,5 +1,6 @@
 use crate::errors::{LeftError, Result};
 use crate::models::dto::ManagerState;
+use futures::StreamExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tokio::fs;
@@ -64,7 +65,8 @@ impl StateSocket {
 
             let state_changed = json != state.last_state;
             if state_changed {
-                state.peers.retain(std::option::Option::is_some);
+                state.peers.retain(Option::is_some);
+
                 for peer in &mut state.peers {
                     if peer
                         .as_mut()
